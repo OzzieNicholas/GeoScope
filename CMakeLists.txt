@@ -14,11 +14,14 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
 set(TS_FILES GeoScope_zh_CN.ts)
 
+# 添加项目的源文件
 set(PROJECT_SOURCES
-        main.cpp
-        MainWindow.cpp
-        MainWindow.h
-        MainWindow.ui
+        Src/main.cpp
+        Src/MainWindow/MainWindow.cpp
+        Src/MainWindow/MainWindow.h
+        Src/MainWindow/MainWindow.ui
+        Src/Geometry/Geometry.h
+        Src/Geometry/Geometry.cpp
         ${TS_FILES}
 )
 
@@ -27,19 +30,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET GeoScope APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
     if(ANDROID)
         add_library(GeoScope SHARED
             ${PROJECT_SOURCES}
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(GeoScope
             ${PROJECT_SOURCES}
@@ -49,11 +45,10 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
+# 链接 Qt 的 Widgets 模块
 target_link_libraries(GeoScope PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
+# 设置应用程序属性（适用于 macOS 和 Windows）
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.GeoScope)
 endif()
@@ -65,6 +60,7 @@ set_target_properties(GeoScope PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+# 安装目标设置
 include(GNUInstallDirs)
 install(TARGETS GeoScope
     BUNDLE DESTINATION .
@@ -72,6 +68,7 @@ install(TARGETS GeoScope
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
+# 如果是 Qt 6，调用 `qt_finalize_executable`
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(GeoScope)
 endif()
