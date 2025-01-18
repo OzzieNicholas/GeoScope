@@ -39,6 +39,31 @@ else()
     else()
         add_executable(GeoScope
             ${PROJECT_SOURCES}
+            Src/Geometry/FileParser.h Src/Geometry/FileParser.cpp
+            Src/Geometry/IGESParser.h Src/Geometry/IGESParser.cpp
+            Src/Geometry/STEPParser.h Src/Geometry/STEPParser.cpp
+            Src/Geometry/OBJParser.h Src/Geometry/OBJParser.cpp
+            Src/Algorithms/ConvexHull/ConvexHull.h Src/Algorithms/ConvexHull/ConvexHull.cpp
+            Src/Algorithms/Delaunay/Delaunay.h Src/Algorithms/Delaunay/Delaunay.cpp
+            Src/Algorithms/Voronoi/Voronoi.h Src/Algorithms/Voronoi/Voronoi.cpp
+            Src/NURBS/NURBSCurve.h Src/NURBS/NURBSCurve.cpp
+            Src/NURBS/NURBSSurface.h Src/NURBS/NURBSSurface.cpp
+            Src/NURBS/SurfaceFitting.h Src/NURBS/SurfaceFitting.cpp
+            Src/Mesh/MeshGenerator.h Src/Mesh/MeshGenerator.cpp
+            Src/Mesh/MeshOptimizer.h Src/Mesh/MeshOptimizer.cpp
+            Src/Mesh/MeshQuality.h Src/Mesh/MeshQuality.cpp
+            Src/Render/RayTracer.h Src/Render/RayTracer.cpp
+            Src/Render/BVH.h Src/Render/BVH.cpp
+            Src/Render/ShaderManager.h Src/Render/ShaderManager.cpp
+            Src/Interaction/Canvas.h Src/Interaction/Canvas.cpp
+            Src/Interaction/ControlsPanel.h Src/Interaction/ControlsPanel.cpp
+            Src/Utils/Logger.h Src/Utils/Logger.cpp
+            Src/Utils/MathHelpers.h Src/Utils/MathHelpers.cpp
+            Src/Utils/ConfigLoader.h Src/Utils/ConfigLoader.cpp
+            Tests/TestMain.cpp
+            Tests/TestGeometry.cpp
+            Tests/TestAlgorithms.cpp
+            Tests/TestRender.cpp
         )
     endif()
 
